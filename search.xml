@@ -1,6 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>webpack学习笔记</title>
+    <url>/2022/08/26/webpack/</url>
+    <content><![CDATA[<blockquote>
+<h3 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a><b>安装与配置</b></h3></blockquote>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a><b>安装</b></h4><p><b>1.创建项目文件夹，并进入项目目录。</b></p>
+<p><b>2.初始化项目，生成package.json文件：</b>  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm init -y  //是的，要先安装npm</span><br></pre></td></tr></table></figure>
+
+<p><b>3.安装webpack和webpack-cli：</b>  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm i webpack webpack-cli -D    //局部安装，注意安装的版本</span><br></pre></td></tr></table></figure>  
+<p>安装成功后package.json文件中会显示版本信息：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;devDependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;webpack&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^5.74.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;webpack-cli&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.10.0&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a><b>配置</b></h4><p><b>1.根目录下创建webpack.config.js文件并配置</b></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span>=&#123;</span><br><span class="line">    <span class="attr">mode</span>:<span class="string">&#x27;development&#x27;</span>, <span class="comment">//模式，development为开发模式，production为生产模式</span></span><br><span class="line">    <span class="attr">entry</span>:<span class="string">&#x27;./js/b&#x27;</span>, <span class="comment">//入口路径，根目录下js文件夹下的b.js文件</span></span><br><span class="line">    <span class="attr">output</span>:&#123; <span class="comment">//出口</span></span><br><span class="line">        <span class="attr">filename</span>:<span class="string">&#x27;[name].bundle.js&#x27;</span>,<span class="comment">//打包的文件名称,&#x27;[name]&#x27;自动匹配入口文件名</span></span><br><span class="line">        <span class="attr">path</span>:__dirname +<span class="string">&#x27;/dist&#x27;</span>,<span class="comment">//打包文件存放的路径，根目录下的dist文件夹</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><b>2.运行</b><br>终端输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npx webpack -w </span><br></pre></td></tr></table></figure>
+<p>运行成功生成dist文件夹，包含打包好的文件</p>
+<hr>
+<blockquote>
+<h3 id="Loader"><a href="#Loader" class="headerlink" title="       Loader "></a><blockquote style="padding-left: 30px;">       Loader </blockquote></h3></blockquote>
+<p><b>1.加载css样式文件：</b>  </p>
+<blockquote>
+<p>css-loader,style-loader </p>
+</blockquote>
+<ul>
+<li>安装css-loader和style-loader:<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm i css-loader style-loader -D</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>安装成功后package.json文件中新增版本信息：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;css-loader&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^6.7.1&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;style-loader&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^3.3.1&quot;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置webpack.config.js文件<br>新增module<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">module</span>:&#123;</span><br><span class="line">    <span class="attr">rules</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">test</span>:<span class="regexp">/\.css$/i</span>, <span class="comment">//查找以.css结尾的文件</span></span><br><span class="line">            <span class="attr">use</span>:[<span class="string">&#x27;style-loader&#x27;</span>,<span class="string">&#x27;css-loader&#x27;</span>]<span class="comment">//先调用css-loader，再调用style-loader,右侧先调用</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><b>2.加载图片地址：</b> </p>
+<blockquote>
+<p>方法1.加载图片地址： <font color="#20B2AA">file-loader</font></p>
+</blockquote>
+<ul>
+<li>安装file-loader:<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm i file-loader -D</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>安装成功后package.json文件中新增版本信息：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;file-loader&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^6.2.0&quot;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置webpack.config.js文件<br>配置module<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">module</span>:&#123;</span><br><span class="line">    <span class="attr">rules</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">test</span>:<span class="regexp">/\.(jpg|png|gif)$/i</span>, <span class="comment">//查找以.jpg,.png,.gif结尾的文件</span></span><br><span class="line">            <span class="attr">use</span>:[&#123;</span><br><span class="line">                <span class="attr">loader</span>:<span class="string">&#x27;file-loader&#x27;</span>,</span><br><span class="line">                &#125;]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>方法2.直接转换图片数据： <font color="#20B2AA">url-loader</font></p>
+</blockquote>
+<ul>
+<li>安装url-loader:<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm i url-loader -D</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>安装成功后package.json文件中新增版本信息：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;url-loader&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.1.1&quot;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置webpack.config.js文件<br>配置module<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">module</span>:&#123;</span><br><span class="line">    <span class="attr">rules</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">test</span>:<span class="regexp">/\.(jpg|png|gif)$/i</span>, <span class="comment">//查找以.jpg,.png,.gif结尾的文件</span></span><br><span class="line">            <span class="attr">use</span>:[&#123;</span><br><span class="line">                <span class="attr">loader</span>:<span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">                &#125;]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>两种方式比较：  </p>
+<ul>
+<li>url-loader更适合文件大小较小的图片</li>
+<li>也可以两种方式一起使用：<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&gt;<span class="attr">module</span>:&#123;</span><br><span class="line">       <span class="attr">rules</span>:[</span><br><span class="line">           &#123;</span><br><span class="line">              <span class="attr">test</span>:<span class="regexp">/\.(jpg|png|gif)$/i</span>,</span><br><span class="line">               <span class="attr">use</span>:[</span><br><span class="line">                   &#123;</span><br><span class="line">                      <span class="attr">loader</span>:<span class="string">&#x27;file-loader&#x27;</span>,</span><br><span class="line">                   &#125;,</span><br><span class="line">                   &#123;</span><br><span class="line">                      <span class="attr">loader</span>:<span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">                      <span class="attr">options</span>:&#123;</span><br><span class="line">                          <span class="attr">limit</span>:<span class="number">60</span>*<span class="number">1024</span>,<span class="comment">//限制文件大小&#125;</span></span><br><span class="line">                      &#125;</span><br><span class="line">                  &#125;</span><br><span class="line">               ]</span><br><span class="line">           &#125;</span><br><span class="line">       ]</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<h3 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a><b>加载数据</b></h3></blockquote>
+<p><b>方法1.json</b><br>直接在js文件中引入json文件并使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import list1 from &quot;../json/nav.json&quot;;</span><br></pre></td></tr></table></figure>
+
+<p><b>方法2.csv</b></p>
+<ul>
+<li><p>在js文件中引入csv文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import list2 from &quot;../csv/nav.csv&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装csv-loader</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm i csv-loader -D</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置webpack.config.js文件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">module</span>:&#123;</span><br><span class="line">    <span class="attr">rules</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">test</span>:<span class="regexp">/\.csv$/i</span>, <span class="comment">//查找以.csv结尾的文件</span></span><br><span class="line">            <span class="attr">use</span>:[&#123;</span><br><span class="line">                <span class="attr">loader</span>:<span class="string">&#x27;csv-loader&#x27;</span>,</span><br><span class="line">                <span class="attr">options</span>:&#123;</span><br><span class="line">                    <span class="attr">header</span>:<span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">                &#125;]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<blockquote>
+<h3 id="一些其他"><a href="#一些其他" class="headerlink" title="一些其他"></a><b>一些其他</b></h3></blockquote>
+<h4 id="html-webpack-plugin"><a href="#html-webpack-plugin" class="headerlink" title="html-webpack-plugin"></a><b>html-webpack-plugin</b></h4><ul>
+<li>安装<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm i html-webpack-plugin -D</span><br></pre></td></tr></table></figure></li>
+<li>配置webpack.config.js文件<br>1.在webpack.config.js文件中引入html-webpack-plugin  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">HtmlWebpackPlugin</span> = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>);</span><br></pre></td></tr></table></figure>
+2.新增plugins<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">plugins</span>:[</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">HtmlWebpackPlugin</span>(&#123;</span><br><span class="line">            <span class="attr">template</span>:<span class="string">&#x27;./index.html&#x27;</span>,</span><br><span class="line">            <span class="attr">filename</span>:<span class="string">&#x27;xxx.html&#x27;</span>,<span class="comment">//打包后的文件名</span></span><br><span class="line">            <span class="attr">inject</span>:<span class="string">&#x27;body&#x27;</span>,<span class="comment">//将入口js文件放到到&lt;body&gt;标签中,false-&gt;不显示js文件</span></span><br><span class="line">            <span class="attr">minify</span>:&#123;<span class="comment">//压缩代码</span></span><br><span class="line">                <span class="attr">collapseBooleanAttributes</span>:<span class="literal">true</span>,</span><br><span class="line">                <span class="attr">collapseWhitespace</span>:<span class="literal">true</span>,</span><br><span class="line">                <span class="attr">removeComments</span>:<span class="literal">true</span>,</span><br><span class="line">                <span class="comment">//...  ...</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;),</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    ]</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2022/08/26/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -17,10 +112,5 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>webpack</title>
-    <url>/2022/08/26/webpack/</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
